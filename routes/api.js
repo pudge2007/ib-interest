@@ -80,13 +80,9 @@ module.exports = function (app, passport) {
 
   app.post('/login', passport.authenticate('local-login', {
       successRedirect : '/profile',
-      failureRedirect : '/loginFailure',
+      failureRedirect : '/login',
       failureFlash : true // allow flash messages
   }));
-  
-  app.get('/loginFailure', function(req, res, next) {
-  res.send('Failed to authenticate');
-});
   
   // logout
 	app.get('/logout', isLoggedIn, function (req, res) { 

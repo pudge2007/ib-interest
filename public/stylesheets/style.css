@@ -24,6 +24,11 @@ a {
   color: #96d0e6;
 }
 
+a:hover, a:focus {
+  color: #333;
+  text-decoration: underline;
+}
+
 ul {
   list-style: none;
   padding-left: 15px;
@@ -223,48 +228,6 @@ input.logout:focus {
   text-decoration: none;
 }
 
-.page-login {
-  margin-top: 100px;
-}
-
-.page-login form > div {
-  position: relative;
-  display: inline-block;
-}
-
-.page-login form > div:after{
-  content: '';
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  width: 32px;
-  height: 32px;
-  display: block;
-  background: url(../images/github.png);
-  transition: .3s;
-}
-
-.btn-login {
-  background-color: #96d0e6;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 18px;
-  padding: 15px 60px 15px 30px;
-  transition: .3s;
-  position: relative;
-  outline: none;
-}
-
-.page-login form > div:hover:after,
-.page-login form > div:focus:after{
-  background: url(../images/github_dark.png);
-}
-
-.page-login form > div:hover .btn-login,
-.page-login form > div:focus .btn-login{
-  border: 1px solid #333;
-  background-color: transparent;
-}
 
 .page-new {
   margin-top: 70px;
@@ -288,5 +251,49 @@ input.logout:focus {
 .page-new .btn-default:focus{
   background-color: #96d0e6;
   color: #fff;
+  border: 1px solid #96d0e6;
+}
+
+
+.page-login {
+  margin-top: 70px;
+}
+.page-login h1 {
+  margin-bottom: 20px;
+}
+
+.page-login form{
+  width: 300px;
+  margin: auto;
+  padding: 20px 30px 10px;
+  border: 1px solid #efdfdf;
+}
+
+.page-login form p{
+  margin-top: 30px;
+  text-align: center;
+}
+
+.page-login form label {
+  color: #666;
+}
+
+.btn-login {
+  background-color: #96d0e6;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 18px;
+  width: 100%;
+  display: block;
+  transition: .3s;
+  position: relative;
+  outline: none;
+  margin-top: 30px;
+}
+
+.btn-login:hover,
+.btn-login:focus {
+  color: #96d0e6;
+  background-color: #fff;
   border: 1px solid #96d0e6;
 }
