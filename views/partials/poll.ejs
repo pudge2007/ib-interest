@@ -1,0 +1,36 @@
+<div class="container">  
+  <div class="row">
+    <div class='col-xs-12'>
+      <div class="page-single">
+        <div class="row text-center wrapper">
+          <div class='btn_back'><a href="/" class="btn btn-back" role="button">
+            <span class="glyphicon glyphicon-arrow-left"></span> 
+            Back to Poll List</a>
+          </div>
+          <div class="col-sm-5">
+            <h1>{{poll.question}}</h1>
+          </div>
+          <div class='col-sm-7'>
+            <div ng-hide="poll.userVoted">
+              <form role="form" ng-submit="vote()">
+                <div ng-repeat="choice in poll.choices" class="radio">
+                  <label class='votes'>
+                    <input type="radio" name="choice" ng-model="poll.userVote" value="{{choice._id}}">{{choice.text}}
+                  </label>
+                </div>
+                <button class="btn btn-vote text-center" type="submit">Vote &raquo;</button>
+              </form>
+            </div>
+            <div ng-show="poll.userVoted">
+              <canvas id="bar" class="chart chart-bar" chart-options="opt" chart-data="votes" chart-labels="labels"></canvas>
+              <p class='info'>
+                <em>{{poll.totalVotes}} votes counted so far.
+                  <span ng-show="poll.userChoice">You voted for <strong>{{poll.userChoice.text}}</strong>.</span>
+                </em>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

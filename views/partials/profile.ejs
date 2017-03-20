@@ -1,0 +1,30 @@
+<div class="container">  
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="page-profile">	
+        <h1 class='text-center'>Hello, {{username}}</h1>
+        <div class="row" ng-switch on="userPolls.length">
+          <div class="col-sm-6">
+            <a href="/new" class="btn btn-vote"><span class="glyphicon glyphicon-plus"></span> New Poll</a>
+            <ul ng-switch-when="0">
+              <li><em>No polls in database. Would you like to
+               <a href="/new">create one</a>?
+              </li>
+            </ul>
+            <ul ng-switch-default>
+              <li class='poll_link' ng-repeat="poll in userPolls">
+                <a href="/poll/{{poll._id}}">{{poll.question}}</a>
+                <span ng-click='deletePoll(poll._id)'>delete</span>
+                <span class='results' ng-click='results(poll._id)'>results</span>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+            <canvas ng-show='showChart' id="doughnut" class="chart chart-doughnut" chart-data="votes" chart-labels="labels"></canvas>
+            <p class='text-center' ng-hide='showChart'>no votes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
