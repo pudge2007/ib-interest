@@ -18,35 +18,19 @@ module.exports = function (app, passport) {
     });
   });
   
-  // API-интерфейс JSON для создания нового пина
-  app.post('/pin', isLoggedIn, function(req, res) {
-    var pinObj = {description: req.body.desc, link: req.body.link, username: req.user.local.username};
-    var pin = new Pin(pinObj);
-    pin.save(function(err, data) {
-      if(err) throw err;
-      res.json(data);
-    });
-  });
+  // API-интерфейс JSON для создания нового пина в socketApi
   
-  // API для удалeния пина
-  app.delete('/pin/:id', function(req, res){
-    Pin.remove({ _id: req.params.id}, function(err){
-      if(err) throw err;
-      res.send(200);
-    })
-  });
+  // API для удалeния пина в socketApi
   
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
       successRedirect : '/profile',
-      failureRedirect : '/signup',
-      failureFlash : true // allow flash messages
+      failureRedirect : '/signup'
   }));
 
   app.post('/login', passport.authenticate('local-login', {
       successRedirect : '/profile',
-      failureRedirect : '/login',
-      failureFlash : true // allow flash messages
+      failureRedirect : '/login'
   }));
   
   // logout

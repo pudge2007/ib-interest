@@ -1,37 +1,32 @@
 var mongoose = require('mongoose');
 var Pin = mongoose.model('Pin');
 
-// API-интерфейс Socket для сохранения голосования
 module.exports = function(io) {
-  io.on('connection', function (socket) {
-    socket.on('send:vote', function(data) {
-/*      var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;    
-      Poll.findById(data.poll_id, function(err, poll) {
-          if (err) throw err;
-        var choice = poll.choices.id(data.choice);
-        choice.votes.push({ ip: ip });      
-        poll.save(function(err, doc) {
-          if (err) throw err;
-          var theDoc = { 
-            question: doc.question, _id: doc._id, choices: doc.choices, 
-            userVoted: false, totalVotes: 0 
-          };
-          for(var i = 0, ln = doc.choices.length; i < ln; i++) {
-            var choice = doc.choices[i]; 
-            for(var j = 0, jLn = choice.votes.length; j < jLn; j++) {
-              var vote = choice.votes[j];
-              theDoc.totalVotes++;
-              theDoc.ip = ip;
-              if(vote.ip === ip) {
-                theDoc.userVoted = true;
-                theDoc.userChoice = { _id: choice._id, text: choice.text };
-              }
-            }
-          }       
-          socket.emit('myvote', theDoc);
-          socket.broadcast.emit('vote', theDoc);
-        });     
-      });*/
+  
+  io.sockets.on('connection', function (socket) {
+    function find() {
+      Pin.find({}, function(error, pins) {
+        socket.broadcast.emit('getPin', pins);
+      });
+    }  
+    
+    // API-интерфейс JSON для создания нового пина
+    socket.on('postPin', function(data) {
+      var pinObj = {description: data.desc, link: data.link, username: data.username};
+      var pin = new Pin(pinObj);
+      pin.save(function(err) {
+        if(err) throw err;
+        find();
+      });
     });
+    
+    // API-интерфейс JSON для удаления пина
+    socket.on('deletePin', function(data, callback) {
+      callback(true);
+      Pin.remove({ _id: data}, function(err, data){
+        if(err) throw err;
+        find();
+      })
+    })
   });
 };
