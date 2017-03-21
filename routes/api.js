@@ -57,7 +57,7 @@ module.exports = function (app, passport) {
 	
 	// API для проверки на аутентификацию
   app.get('/loggedin', function(req, res) {
-    res.send(req.isAuthenticated() ? req.user : '0');
+    res.send(req.isAuthenticated() ? req.user.local.username : '0');
   });
 	
 	// API-интерфейс JSON для профиля

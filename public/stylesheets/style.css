@@ -72,7 +72,6 @@ input.logout:focus {
 }
 
 .pin{
-  border: 1px solid #f5f5f5;
   border-radius: 5px;
   margin-bottom: 10px;
   font-size: 16px;
@@ -88,6 +87,17 @@ input.logout:focus {
 box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
 }
 
+
+.pin.my{
+  -webkit-box-shadow: 0px 0px 3px 0px #96d0e6;
+-moz-box-shadow: 0px 0px 3px 0px #96d0e6;
+box-shadow: 0px 0px 3px 0px #96d0e6;
+}
+
+.pin.my .content.bordered .username{
+  font-weight: bold;
+}
+
 .pin img {
   width: 100%;
 } 
@@ -99,7 +109,7 @@ box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
 .pin .content span.delete {
   cursor: pointer;
   position: absolute;
-  top: 17px;
+  top: 14px;
   right: 10px;
   display: block;
 }
@@ -107,10 +117,6 @@ box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
 .pin .content span.delete .fa:hover,
 .pin .content span.delete .fa:focus{
   color:red;
-}
-
-.pin .content .bordered{
-  border-top: 2px solid #f5f5f5;
 }
 
 .pin .content.bordered{

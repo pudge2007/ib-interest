@@ -3,15 +3,16 @@
     <div class="row">
       <div class="col-xs-12">
         <ul masonry="{ gutter: 10 }" load-images="true">
-          <li class='pin masonry-brick' ng-repeat="pin in pins">
+          <li class='pin masonry-brick' ng-repeat="pin in pins | filter:sortByUsename" ng-class="{my: checkUs === pin.username}">
             <img src='{{pin.link}}'>
-            <div class='content'>
+            <div class='content' >
               <p class='title'>{{pin.description}}</p>
               <i class="fa fa-heart" aria-hidden="true"> 0</i><i class="fa fa-retweet" aria-hidden="true"> 0</i>
             </div>
             <div class='content bordered'>
               <div class='avatar'></div>
-              <div class='username'>{{pin.username}}</div>
+              <div class='username' ng-click='getUsername(pin.username)' ng-show="checkUs === pin.username"><span>you</span></div>
+              <div class='username' ng-click='getUsername(pin.username)' ng-hide="checkUs === pin.username"><span>{{pin.username}}</span></div>
             </div>
           </li>
         </ul>

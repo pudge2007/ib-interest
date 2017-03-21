@@ -19,20 +19,19 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
     $http.get('/loggedin').then(function(response){
       if (response.data !== '0') {
         deferred.resolve();
-        $rootScope.userId = response.data;
       }
       else { 
-        deferred.reject();
         $location.url('/login');
+        deferred.reject();
       } 
     }); 
     return deferred.promise; 
   };
 
   $routeProvider
-    .when('/', { templateUrl: 'partials/home.ejs', controller: 'ListCtrl' })
-    .when('/poll/:id',{ templateUrl: 'partials/poll.ejs', controller: 'ItemCtrl' })
-    .when('/new',{ templateUrl: 'partials/new.ejs', controller: 'NewPollCtrl', resolve: { loggedin: checkLoggedin }})
+    .when('/', { templateUrl: 'partials/home.ejs', controller: 'ListCtrl'})
+    .when('/poll/:id',{ templateUrl: 'partials/poll.ejs', controller: 'ItemCtrl'})
+    .when('/new',{ templateUrl: 'partials/new.ejs', controller: 'NewCtrl', resolve: { loggedin: checkLoggedin }})
     .when('/profile',{ templateUrl: 'partials/profile.ejs', controller: 'UserCtrl', resolve: { loggedin: checkLoggedin } })
     .when('/login',{ templateUrl: 'partials/login.ejs'})
     .when('/signup',{ templateUrl: 'partials/signup.ejs'});
@@ -44,25 +43,29 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
 
 // nav buttons  
 app.controller('MainCtrl', ['$scope', '$q', '$http', '$rootScope', function($scope, $q, $http, $rootScope){
-    var deferred = $q.defer();
-    $http.get('/loggedin').then(function(response){
-      if (response.data !== '0') {
-        deferred.resolve();
-        $scope.showing = true;
-      }
-      else {
-        $scope.showing = false;
-        deferred.reject();
-      } 
-    }); 
+  var deferred = $q.defer();
+  $http.get('/loggedin').then(function(response){
+    $rootScope.username = response.data;
+    if (response.data !== '0') {
+      $rootScope.showing = true;
+      deferred.resolve();
+    }
+    else {
+      $rootScope.showing = false;
+      deferred.reject();
+    } 
+  }); 
 }]);
 
 //all polls to index page
-app.controller('ListCtrl', ['$scope','$http', function($scope, $http){
-  
+app.controller('ListCtrl', ['$scope','$http', '$rootScope', function($scope, $http, $rootScope){
+  $scope.checkUs = $rootScope.username;
   $http.get('/pins').then(function(response){
     $scope.pins = response.data;
   });
+  $scope.getUsername = function (username) {
+    $scope.sortByUsename = username;
+  }
 }]);
 
 //single poll
@@ -100,7 +103,7 @@ app.controller('ItemCtrl', ['$scope', '$route', '$routeParams', '$http', functio
 }]);
 
 //create new pin
-app.controller('NewPollCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
+app.controller('NewCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
   
     $scope.desc = '';
     $scope.link ='';
