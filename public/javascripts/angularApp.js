@@ -1,4 +1,4 @@
-var app = angular.module('pinterest', ['ngResource', 'ngRoute']);
+var app = angular.module('pinterest', ['ngResource', 'ngRoute', 'wu.masonry']);
 
 app.factory('loggedInterceptor', ['$rootScope', '$q', '$location', function($rootScope, $q, $location) {
   return { 
@@ -60,8 +60,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$http', '$rootScope', function($sco
 //all polls to index page
 app.controller('ListCtrl', ['$scope','$http', function($scope, $http){
   
-  $http.get('/polls').then(function(response){
-    $scope.polls = response.data;
+  $http.get('/pins').then(function(response){
+    $scope.pins = response.data;
   });
 }]);
 
@@ -99,37 +99,19 @@ app.controller('ItemCtrl', ['$scope', '$route', '$routeParams', '$http', functio
   };
 }]);
 
-//create new poll
+//create new pin
 app.controller('NewPollCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
   
-    $scope.poll = {question: '', choices: [{ text: '' }, { text: '' }] };
-    
-    $scope.addChoice = function() {
-      if($scope.poll.choices.length < 7)
-        $scope.poll.choices.push({ text: '' });
-      else alert ('Choices an be no more than 7')
-    };
-          
-    $scope.createPoll = function() {
-      var poll = $scope.poll;
-      if(poll.question.length > 0) {
-        var choiceCount = 0;
-        for(var i = 0, ln = poll.choices.length; i < ln; i++) {
-          var choice = poll.choices[i];        
-          if(choice.text.length > 0) {
-            choiceCount++;
-          }
-        }    
-        if(choiceCount > 1) {
-          $http.post('/polls', poll).then(function(response){
-            console.log(response)
-              $location.path('/poll/' + response.data._id); 
+    $scope.desc = '';
+    $scope.link ='';
+    $scope.createPin = function() {
+      var pin = {desc: $scope.desc, link: $scope.link};
+      if(pin.desc.length > 0 && pin.link.length > 0) {
+          $http.post('/pin', pin).then(function(response){
+            $location.path('/profile'); 
           });
-        } else {
-          alert('You must enter at least two choices');
-        }
       } else {
-        alert('You must enter a question');
+        alert('You must enter a description and source link');
       }
     };
 }]);
@@ -137,12 +119,12 @@ app.controller('NewPollCtrl', ['$scope', '$http', '$location', function($scope, 
 //profile controller
 app.controller('UserCtrl', ['$scope', '$route', '$http', function($scope, $route, $http){
   $http.get('/user').then(function(response){
-    $scope.username = response.data.name.github.displayName;
-    $scope.userPolls = response.data.userPolls;
+    $scope.username = response.data.username;
+    $scope.userPins = response.data.pins;
   })
   
   $scope.deletePoll = function(id){
-    $http.delete('/polls/' + id).then(function(){
+    $http.delete('/pin/' + id).then(function(){
       console.log('deleted')
     })
     $route.reload();

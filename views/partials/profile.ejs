@@ -3,25 +3,23 @@
     <div class="col-xs-12">
       <div class="page-profile">	
         <h1 class='text-center'>Hello, {{username}}</h1>
-        <div class="row" ng-switch on="userPolls.length">
-          <div class="col-sm-6">
-            <a href="/new" class="btn btn-vote"><span class="glyphicon glyphicon-plus"></span> New Poll</a>
-            <ul ng-switch-when="0">
-              <li><em>No polls in database. Would you like to
-               <a href="/new">create one</a>?
+        <div class="row">
+          <div class="col-xs-12">
+            <a href="/new" class="btn btn-vote"><span class="glyphicon glyphicon-plus"></span> New Pin</a>
+            <ul masonry="{ gutter: 10 }" load-images="true">
+              <li class='pin masonry-brick' ng-repeat="pin in userPins">
+                <img src='{{pin.link}}'>
+                <div class='content'>
+                  <span class='delete' ng-click='deletePoll(pin._id)'><i class="fa fa-times" aria-hidden="true"></i></span>
+                  <p class='title'>{{pin.description}}</p>
+                  <i class="fa fa-heart" aria-hidden="true"> 0</i><i class="fa fa-retweet" aria-hidden="true"> 0</i>
+                </div>
+                <div class='content bordered'>
+                  <div class='avatar'></div>
+                  <div class='username'>{{pin.username}}</div>
+                </div>
               </li>
             </ul>
-            <ul ng-switch-default>
-              <li class='poll_link' ng-repeat="poll in userPolls">
-                <a href="/poll/{{poll._id}}">{{poll.question}}</a>
-                <span ng-click='deletePoll(poll._id)'>delete</span>
-                <span class='results' ng-click='results(poll._id)'>results</span>
-              </li>
-            </ul>
-          </div>
-          <div class="col-sm-6">
-            <canvas ng-show='showChart' id="doughnut" class="chart chart-doughnut" chart-data="votes" chart-labels="labels"></canvas>
-            <p class='text-center' ng-hide='showChart'>no votes.</p>
           </div>
         </div>
       </div>

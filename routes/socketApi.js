@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
-var Poll = mongoose.model('Poll');
+var Pin = mongoose.model('Pin');
 
 // API-интерфейс Socket для сохранения голосования
 module.exports = function(io) {
   io.on('connection', function (socket) {
     socket.on('send:vote', function(data) {
-      var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;    
+/*      var ip = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;    
       Poll.findById(data.poll_id, function(err, poll) {
           if (err) throw err;
         var choice = poll.choices.id(data.choice);
@@ -31,7 +31,7 @@ module.exports = function(io) {
           socket.emit('myvote', theDoc);
           socket.broadcast.emit('vote', theDoc);
         });     
-      });
+      });*/
     });
   });
 };
