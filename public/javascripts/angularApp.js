@@ -100,7 +100,7 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
   });
   
   $scope.sorting = function (username) {
-    $scope.sortByUsename = username;
+    $scope.sortByUsername = username;
   }
   
   $scope.like = function (id) {

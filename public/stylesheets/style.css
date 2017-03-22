@@ -82,9 +82,9 @@ input.logout:focus {
   transition: 0.2s;
   display: block;
   margin-bottom: 10px;
--webkit-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
--moz-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
+  box-shadow: 0px 0px 3px 0px rgba(186,186,186,1);
 }
 
 
@@ -104,6 +104,7 @@ box-shadow: 0px 0px 3px 0px #96d0e6;
 .pin .content {
   position: relative;
   padding: 15px 10px;
+  cursor: default;
 }
 
 .pin .content span.delete {
@@ -119,7 +120,7 @@ box-shadow: 0px 0px 3px 0px #96d0e6;
   color:red;
 }
 
-.pin .content.bordered{
+.page-home .pin .content.bordered{
   border-top: 2px solid #f5f5f5;
   cursor: pointer;
 }
@@ -157,9 +158,9 @@ box-shadow: 0px 0px 3px 0px #96d0e6;
   color: #96d0e6;
 }
 
-.pin .content .fa.dis:hover,
-.pin .content .fa.dis:focus{
-  cursor: not-allowed;
+.pin .content .fa.my,
+.pin.my .content .fa{
+  cursor: default;
   color: #ccc;
 }
 
@@ -202,12 +203,12 @@ box-shadow: 0px 0px 3px 0px #96d0e6;
 }
 
 .page-profile {
-  margin-top: 70px;
+  margin-top: 40px;
 }
 
 .page-profile .btn-vote {
   margin-bottom: 40px;
-  padding: 7px 82px 7px 70px;
+  padding: 7px 80px 7px 70px;
   margin-left: 15px;
 }
 
