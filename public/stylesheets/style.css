@@ -148,9 +148,19 @@ box-shadow: 0px 0px 3px 0px #96d0e6;
   cursor: pointer;
 }
 
+.pin .content .fa.voted{
+  color: #96d0e6;
+}
+
 .pin .content .fa:hover,
 .pin .content .fa:focus{
   color: #96d0e6;
+}
+
+.pin .content .fa.dis:hover,
+.pin .content .fa.dis:focus{
+  cursor: not-allowed;
+  color: #ccc;
 }
 
 .pin .content p.title{

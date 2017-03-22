@@ -18,9 +18,7 @@ module.exports = function (app, passport) {
     });
   });
   
-  // API-интерфейс JSON для создания нового пина в socketApi
-  
-  // API для удалeния пина в socketApi
+  // API-интерфейс JSON для создания/удаления нового пина в socketApi
   
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {

@@ -82,16 +82,61 @@ app.controller('MainCtrl', ['$scope', '$q', '$http', '$rootScope', function($sco
 
 //all polls to index page
 app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($scope, $http, $rootScope, socket){
+  
   $scope.checkUs = $rootScope.username;
+  (($scope.checkUs !== '0') && ($scope.checkUs !== undefined)) ? $scope.disabled = false : $scope.disabled = true;
+  console.log($scope.disabled);
+  
   $http.get('/pins').then(function(response){
     $scope.pins = response.data;
+      $scope.pins.forEach(function(item) {
+        if(!$scope.disabled) {
+          item.voted = item.likes.some(function (like) {
+            return like.user === $scope.checkUs;
+          })
+        } else
+          item.voted = false;
+      })
   });
+  
   $scope.sorting = function (username) {
     $scope.sortByUsename = username;
   }
   
+  $scope.like = function (id) {
+    if(!$scope.disabled){
+      var pinLiked = {id: id, user: $scope.checkUs}
+      socket.emit('setLike', pinLiked);
+    }
+  }
+  
   socket.on('getPin', function(data) {
     $scope.pins = data;
+  });
+    
+  socket.on('getLikes', function(data) {
+    if(data.status === 'add') {
+      $scope.pins.forEach(function(item) {
+        if(item._id === data.id) {
+          item.totalLikes++;
+          item.likes = data.likes;
+        }
+        item.voted = item.likes.some(function (like) {
+          return like.user === $scope.checkUs;
+        })
+      })
+    }
+    else if(data.status === 'delete') {
+      $scope.pins.forEach(function(item) {
+        if(item._id === data.id) {
+          item.totalLikes--;
+          item.likes = data.likes;
+        }
+        item.voted = item.likes.some(function (like) {
+          return like.user === $scope.checkUs;
+        })
+      })
+    }
   });
   
 }]);

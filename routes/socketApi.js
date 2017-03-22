@@ -28,5 +28,30 @@ module.exports = function(io) {
         find();
       })
     })
+    
+    //API для лайков
+    socket.on('setLike', function(data) {
+      Pin.findById(data.id, function(err, pin) {
+        if (err) throw err;
+        var checkVoted = pin.likes.some(function(like) {
+          return like.user === data.user;
+        })
+        if(!checkVoted) {
+          pin.likes.push({ user: data.user });
+          pin.totalLikes++;
+          pin.save(function(err, doc) {
+            if (err) throw err;
+            io.sockets.emit('getLikes', {likes: pin.likes, id: pin._id, status: 'add'});
+          });
+        } else {
+          Pin.update({_id: data.id}, {$pull: {likes: {user: data.user}}, $inc: {totalLikes: -1}}, function(err) {
+            if (err) throw err;
+            Pin.findById(data.id, function(err, pin) {
+              io.sockets.emit('getLikes', {likes: pin.likes, id: pin._id, status: 'delete'});
+            })
+          })
+        }
+      });
+    });
   });
 };
