@@ -1,4 +1,4 @@
-var app = angular.module('pinterest', ['ngResource', 'ngRoute', 'wu.masonry']);
+var app = angular.module('pinterest', ['ngResource', 'ngRoute', 'wu.masonry', '720kb.tooltips']);
 
 app.factory('loggedInterceptor', ['$rootScope', '$q', '$location', function($rootScope, $q, $location) {
   return { 
@@ -37,7 +37,7 @@ app.factory('socket',['$rootScope', function($rootScope) {
     };
   }]);
 
-app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+app.config(['$routeProvider', '$locationProvider', '$httpProvider', 'tooltipsConfProvider', function($routeProvider, $locationProvider, $httpProvider, tooltipsConfProvider) {
   var checkLoggedin = function($q, $http, $location, $rootScope){
     var deferred = $q.defer();
     $http.get('/loggedin').then(function(response){
@@ -62,6 +62,12 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
   $routeProvider.otherwise({ redirectTo: "/" });
   $locationProvider.html5Mode({ enabled: true, requireBase: false});
   $httpProvider.interceptors.push('loggedInterceptor');
+  
+  tooltipsConfProvider.configure({
+    'side':'bottom',
+    'size':'small',
+    'speed': 'fast',
+  });
 }]);
 
 // nav buttons  

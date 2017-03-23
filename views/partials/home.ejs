@@ -22,7 +22,7 @@
                 <i class="my fa fa-retweet" aria-hidden="true"> {{pin.totalReposts}}</i>
               </div>
             </div>
-            <div class='content bordered' ng-click='sorting(pin.username)'>
+            <div class='content bordered' ng-click='sorting(pin.username)' tooltips tooltip-template="sort by username">
               <div class='avatar'></div>
               <div class='username' ng-show="checkUs === pin.username"><span>you</span></div>
               <div class='username' ng-hide="checkUs === pin.username"><span>{{pin.username}}</span></div>

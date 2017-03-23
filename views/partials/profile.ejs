@@ -10,7 +10,9 @@
               <li class='pin masonry-brick' ng-repeat="pin in userPins">
                 <img src='{{pin.link}}'>
                 <div class='content'>
-                  <span class='delete' ng-click='deletePoll(pin._id)'><i class="fa fa-times" aria-hidden="true"></i></span>
+                  <span class='delete' ng-click='deletePoll(pin._id)'>
+                    <i class="fa fa-times" aria-hidden="true" tooltips tooltip-template="delete pin"></i>
+                  </span>
                   <p class='title'>{{pin.description}}</p>
                   <i class="my fa fa-heart" aria-hidden="true"> {{pin.totalLikes}}</i>
                   <i class="my fa fa-retweet" aria-hidden="true"> {{pin.totalReposts}}</i>
@@ -19,7 +21,9 @@
               <li class='pin repost masonry-brick' ng-repeat="reposts in userReposts">
                 <img src='{{reposts.link}}'>
                 <div class='content'>
-                  <span class='delete' ng-click='deleteRepost(reposts._id)'><i class="fa fa-retweet" aria-hidden="true"></i></span>
+                  <span class='delete' ng-click='deleteRepost(reposts._id)'>
+                    <i class="fa fa-retweet" aria-hidden="true" tooltips tooltip-template="delete repost"></i>
+                  </span>
                   <p class='title'>{{reposts.description}}</p>
                   <i class="my fa fa-heart" aria-hidden="true"> {{reposts.totalLikes}}</i>
                   <i class="my fa fa-retweet" aria-hidden="true"> {{reposts.totalReposts}}</i>

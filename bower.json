@@ -23,6 +23,7 @@
     "angular": "^1.6.2",
     "jquery-bridget": "^2.0.1",
     "angular-masonry": "^0.17.0",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "angular-tooltips": "^1.1.10"
   }
 }
