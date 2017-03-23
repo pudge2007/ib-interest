@@ -94,8 +94,11 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
           item.voted = item.likes.some(function (like) {
             return like.user === $scope.checkUs;
           })
+          item.rep = item.reposts.some(function (repost) {
+            return repost.user === $scope.checkUs;
+          })
         } else
-          item.voted = false;
+          item.voted = item.rep = false;
       })
   });
   
@@ -107,6 +110,13 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
     if(!$scope.disabled){
       var pinLiked = {id: id, user: $scope.checkUs}
       socket.emit('setLike', pinLiked);
+    }
+  }
+  
+  $scope.repost = function (id) {
+    if(!$scope.disabled){
+      var pinReposted = {id: id, user: $scope.checkUs}
+      socket.emit('setRepost', pinReposted);
     }
   }
   
@@ -139,6 +149,32 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
     }
   });
   
+  socket.on('getReposts', function(data) {
+    if(data.status === 'add') {
+      $scope.pins.forEach(function(item) {
+        if(item._id === data.id) {
+          item.totalReposts++;
+          item.reposts = data.reposts;
+        }
+        item.rep = item.reposts.some(function (repost) {
+          return repost.user === $scope.checkUs;
+        })
+      })
+    }
+    else if(data.status === 'delete') {
+      $scope.pins.forEach(function(item) {
+        if(item._id === data.id) {
+          item.totalReposts--;
+          item.likes = data.likes;
+          item.reposts = data.reposts;
+        }
+        item.rep = item.reposts.some(function (repost) {
+          return repost.user === $scope.checkUs;
+        })
+      })
+    }
+  });
+  
 }]);
 
 //create new pin
@@ -156,11 +192,18 @@ app.controller('NewCtrl', ['$scope', '$http', '$location','$rootScope','socket',
 app.controller('UserCtrl', ['$scope', '$route', '$http','socket', function($scope, $route, $http, socket){
   $http.get('/user').then(function(response){
     $scope.username = response.data.username;
-    $scope.userPins = response.data.pins;
+    $scope.userPins = response.data.pins.myPins;
+    $scope.userReposts = response.data.pins.myReposts;
   })
   
   $scope.deletePoll = function(id){
     socket.emit('deletePin', id, function(data) {
+      if(data) $route.reload();
+    });
+  }
+  
+  $scope.deleteRepost = function(id){
+    socket.emit('deleteRepost', {id:id, user: $scope.username}, function(data) {
       if(data) $route.reload();
     });
   }

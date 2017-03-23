@@ -10,15 +10,16 @@
               <div ng-hide="disabled">
                 <span ng-hide="checkUs === pin.username">
                   <i ng-click='like(pin._id)' class="fa fa-heart" aria-hidden="true" ng-class="{voted: pin.voted === true}"> {{pin.totalLikes}}</i>
+                  <i ng-click='repost(pin._id)' class="fa fa-retweet" aria-hidden="true" ng-class="{voted: pin.rep === true}"> {{pin.totalReposts}}</i>
                 </span>
                 <span ng-show="checkUs === pin.username">
                   <i class="fa fa-heart" aria-hidden="true"> {{pin.totalLikes}}</i>
+                  <i class="fa fa-retweet" aria-hidden="true"> {{pin.totalReposts}}</i>
                 </span>
-                <i class="fa fa-retweet" aria-hidden="true"> 0</i>
               </div>
               <div ng-show="disabled">
                 <i class="my fa fa-heart" aria-hidden="true"> {{pin.totalLikes}}</i>
-                <i class="my fa fa-retweet" aria-hidden="true"> 0</i>
+                <i class="my fa fa-retweet" aria-hidden="true"> {{pin.totalReposts}}</i>
               </div>
             </div>
             <div class='content bordered' ng-click='sorting(pin.username)'>

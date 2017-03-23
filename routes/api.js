@@ -18,8 +18,6 @@ module.exports = function (app, passport) {
     });
   });
   
-  // API-интерфейс JSON для создания/удаления нового пина в socketApi
-  
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
       successRedirect : '/profile',
@@ -44,9 +42,21 @@ module.exports = function (app, passport) {
 	
 	// API-интерфейс JSON для профиля
   app.get('/user', function(req, res, next) {
-    Pin.find({'username': req.user.local.username}, function(err, data) {
+    async.parallel({
+      myPins: function(callback){
+        return Pin.find({'username': req.user.local.username}, function(err, pins) {
+          return callback(err, pins);
+        });
+      },
+      myReposts: function(callback){
+        return Pin.find({'reposts':{$elemMatch: {'user':req.user.local.username}}}, function(err, rep) {
+          return callback(err, rep);
+        });
+      },
+    }, function(err, results){
       if(err) throw err;
-      res.json({pins: data, username: req.user.local.username});
+      console.log(results)
+      res.json({pins: results, username: req.user.local.username});
     })
   });
   

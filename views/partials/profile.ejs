@@ -13,9 +13,22 @@
                   <span class='delete' ng-click='deletePoll(pin._id)'><i class="fa fa-times" aria-hidden="true"></i></span>
                   <p class='title'>{{pin.description}}</p>
                   <i class="my fa fa-heart" aria-hidden="true"> {{pin.totalLikes}}</i>
-                  <i class="my fa fa-retweet" aria-hidden="true"> 0</i>
+                  <i class="my fa fa-retweet" aria-hidden="true"> {{pin.totalReposts}}</i>
                 </div>
               </li>
+              <li class='pin repost masonry-brick' ng-repeat="reposts in userReposts">
+                <img src='{{reposts.link}}'>
+                <div class='content'>
+                  <span class='delete' ng-click='deleteRepost(reposts._id)'><i class="fa fa-retweet" aria-hidden="true"></i></span>
+                  <p class='title'>{{reposts.description}}</p>
+                  <i class="my fa fa-heart" aria-hidden="true"> {{reposts.totalLikes}}</i>
+                  <i class="my fa fa-retweet" aria-hidden="true"> {{reposts.totalReposts}}</i>
+                </div>
+                <div class='content bordered'>
+                  <div class='avatar'></div>
+                  <div class='username'><span>{{reposts.username}}</span></div>
+                </div>
+              </li>              
             </ul>
           </div>
         </div>
