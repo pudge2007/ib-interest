@@ -56,7 +56,7 @@ input.logout {
   background-color: transparent;
   border: none;
   color: #9d9d9d;
-  padding-top: 13.5px;
+  padding-top: 15px;
   padding-bottom: 10px;
   padding-left: 15px;
 }
@@ -78,7 +78,7 @@ input.logout:focus {
   color: #666;
   background-color: #fff;
   font-style: normal;
-  max-width: 250px;
+  width: 250px;
   transition: 0.2s;
   display: block;
   margin-bottom: 10px;

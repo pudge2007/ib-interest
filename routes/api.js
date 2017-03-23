@@ -41,7 +41,7 @@ module.exports = function (app, passport) {
   });
 	
 	// API-интерфейс JSON для профиля
-  app.get('/user', function(req, res, next) {
+  app.get('/user', isLoggedIn, function(req, res, next) {
     async.parallel({
       myPins: function(callback){
         return Pin.find({'username': req.user.local.username}, function(err, pins) {
@@ -55,7 +55,6 @@ module.exports = function (app, passport) {
       },
     }, function(err, results){
       if(err) throw err;
-      console.log(results)
       res.json({pins: results, username: req.user.local.username});
     })
   });

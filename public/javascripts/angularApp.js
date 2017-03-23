@@ -49,6 +49,10 @@ app.directive('onErrorSrc', function() {
   }
 });
 
+app.factory('getUsername', ['$rootScope', '$http', function($rootScope, $http) {
+  return $http.get('/loggedin');
+}]);
+
 app.config(['$routeProvider', '$locationProvider', '$httpProvider', 'tooltipsConfProvider', function($routeProvider, $locationProvider, $httpProvider, tooltipsConfProvider) {
   var checkLoggedin = function($q, $http, $location, $rootScope){
     var deferred = $q.defer();
@@ -74,28 +78,21 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', 'tooltipsCon
   $routeProvider.otherwise({ redirectTo: "/" });
   $locationProvider.html5Mode({ enabled: true, requireBase: false});
   $httpProvider.interceptors.push('loggedInterceptor');
-  
-  tooltipsConfProvider.configure({
-    'side':'bottom',
-    'size':'small',
-    'speed': 'fast',
-  });
+
+  tooltipsConfProvider.configure({'side':'bottom', 'size':'small', 'speed': 'fast'});
+
 }]);
 
-// nav buttons  
-app.controller('MainCtrl', ['$scope', '$q', '$http', '$rootScope', function($scope, $q, $http, $rootScope){
-  var deferred = $q.defer();
-  $http.get('/loggedin').then(function(response){
+app.run(['$http', '$rootScope', 'getUsername', function($http, $rootScope, getUsername){
+  getUsername.then(function(response) {
     $rootScope.username = response.data;
-    if (response.data !== '0') {
-      $rootScope.showing = true;
-      deferred.resolve();
-    }
-    else {
-      $rootScope.showing = false;
-      deferred.reject();
-    } 
-  }); 
+  })
+}])
+
+app.controller('MainCtrl', ['$scope', '$rootScope','getUsername', function($scope, $rootScope, getUsername){
+  getUsername.then(function(response) {
+    response.data === '0' ? $scope.showing = false : $scope.showing = true;
+  })
 }]);
 
 //all polls to index page
@@ -103,7 +100,6 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
   
   $scope.checkUs = $rootScope.username;
   (($scope.checkUs !== '0') && ($scope.checkUs !== undefined)) ? $scope.disabled = false : $scope.disabled = true;
-  console.log($scope.disabled);
   
   $http.get('/pins').then(function(response){
     $scope.pins = response.data;
