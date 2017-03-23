@@ -8,7 +8,7 @@
             <a href="/new" class="btn btn-vote"><span class="glyphicon glyphicon-plus"></span> New Pin</a>
             <ul masonry="{ gutter: 10 }" load-images="true">
               <li class='pin masonry-brick' ng-repeat="pin in userPins">
-                <img src='{{pin.link}}'>
+                <img ng-src='{{pin.link}}' on-error-src="./images/sorry.png">
                 <div class='content'>
                   <span class='delete' ng-click='deletePoll(pin._id)'>
                     <i class="fa fa-times" aria-hidden="true" tooltips tooltip-template="delete pin"></i>
@@ -19,7 +19,7 @@
                 </div>
               </li>
               <li class='pin repost masonry-brick' ng-repeat="reposts in userReposts">
-                <img src='{{reposts.link}}'>
+                <img ng-src='{{reposts.link}}' on-error-src="./images/sorry.png">
                 <div class='content'>
                   <span class='delete' ng-click='deleteRepost(reposts._id)'>
                     <i class="fa fa-retweet" aria-hidden="true" tooltips tooltip-template="delete repost"></i>

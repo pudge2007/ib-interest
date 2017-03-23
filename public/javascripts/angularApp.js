@@ -36,6 +36,18 @@ app.factory('socket',['$rootScope', function($rootScope) {
       }
     };
   }]);
+  
+app.directive('onErrorSrc', function() {
+  return {
+    link: function(scope, element, attrs) {
+      element.bind('error', function() {
+        if (attrs.src != attrs.onErrorSrc) {
+          attrs.$set('src', attrs.onErrorSrc);
+        }
+      });
+    }
+  }
+});
 
 app.config(['$routeProvider', '$locationProvider', '$httpProvider', 'tooltipsConfProvider', function($routeProvider, $locationProvider, $httpProvider, tooltipsConfProvider) {
   var checkLoggedin = function($q, $http, $location, $rootScope){

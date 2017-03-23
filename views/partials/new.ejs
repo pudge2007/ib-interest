@@ -3,7 +3,7 @@
     <div class="col-sm-6 col-sm-offset-3 col-xs-12">
       <div class="page-new">
         <h1 class='text-center'>Create a New Pin</h1>
-        <img class='img-prewiew' src='{{link}}'>
+        <img class='img-prewiew' ng-src='{{link}}' on-error-src="./images/sorry.png">
         <form role="form" ng-submit="createPin()">
           <div class="form-group">
             <label for="pinDesc">Description</label>

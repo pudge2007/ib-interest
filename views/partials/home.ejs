@@ -4,7 +4,7 @@
       <div class="col-xs-12">
         <ul masonry="{ gutter: 10 }" load-images="true">
           <li class='pin masonry-brick' ng-repeat="pin in pins | filter:{username:sortByUsername}" ng-class="{my: checkUs === pin.username}">
-            <img src='{{pin.link}}'>
+            <img ng-src='{{pin.link}}' on-error-src="./images/sorry.png">
             <div class='content' >
               <p class='title'>{{pin.description}}</p>
               <div ng-hide="disabled">
