@@ -18,29 +18,7 @@ module.exports = function (app, passport) {
     });
   });
   
-  // process the signup form
-  app.post('/signup', passport.authenticate('local-signup', {
-      successRedirect : '/profile',
-      failureRedirect : '/signup'
-  }));
-
-  app.post('/login', passport.authenticate('local-login', {
-      successRedirect : '/profile',
-      failureRedirect : '/login'
-  }));
-  
-  // logout
-	app.get('/logout', isLoggedIn, function (req, res) { 
-	  req.logout();
-	  res.redirect('/login'); 
-	});
-	
-	// API для проверки на аутентификацию
-  app.get('/loggedin', function(req, res) {
-    res.send(req.isAuthenticated() ? req.user.local.username : '0');
-  });
-	
-	// API-интерфейс JSON для профиля
+  // API-интерфейс JSON для профиля
   app.get('/user', isLoggedIn, function(req, res, next) {
     async.parallel({
       myPins: function(callback){
@@ -57,6 +35,27 @@ module.exports = function (app, passport) {
       if(err) throw err;
       res.json({pins: results, username: req.user.local.username});
     })
+  });
+  
+  // auth
+  app.post('/signup', passport.authenticate('local-signup', {
+      successRedirect : '/profile',
+      failureRedirect : '/signup'
+  }));
+
+  app.post('/login', passport.authenticate('local-login', {
+      successRedirect : '/profile',
+      failureRedirect : '/login'
+  }));
+
+	app.get('/logout', isLoggedIn, function (req, res) { 
+	  req.logout();
+	  res.redirect('/login'); 
+	});
+	
+	// API для проверки на аутентификацию
+  app.get('/loggedin', function(req, res) {
+    res.send(req.isAuthenticated() ? req.user.local.username : '0');
   });
   
 };

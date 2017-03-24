@@ -188,8 +188,7 @@ app.controller('ListCtrl', ['$scope','$http', '$rootScope','socket', function($s
       })
     }
   });
-  
-}]);
+  }]);
 
 //create new pin
 app.controller('NewCtrl', ['$scope', '$http', '$location','$rootScope','socket', function($scope, $http, $location, $rootScope, socket){

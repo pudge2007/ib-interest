@@ -29,7 +29,7 @@ module.exports = function(io) {
       })
     })
     
-    // API-интерфейс JSON для удаления пина
+    // API-интерфейс JSON для удаления репоста
     socket.on('deleteRepost', function(data, callback) {
       callback(true);
       Pin.update({_id: data.id}, {$pull: {reposts: {user: data.user}}, $inc: {totalReposts: -1}}, function(err) {
