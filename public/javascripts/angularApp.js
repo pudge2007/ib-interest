@@ -72,8 +72,8 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', 'tooltipsCon
     .when('/', { templateUrl: 'partials/home.ejs', controller: 'ListCtrl'})
     .when('/new',{ templateUrl: 'partials/new.ejs', controller: 'NewCtrl', resolve: { loggedin: checkLoggedin }})
     .when('/profile',{ templateUrl: 'partials/profile.ejs', controller: 'UserCtrl', resolve: { loggedin: checkLoggedin } })
-    .when('/login',{ templateUrl: 'partials/login.ejs'})
-    .when('/signup',{ templateUrl: 'partials/signup.ejs'});
+    .when('/login',{ templateUrl: 'partials/login.ejs', controller: 'LoginCtrl'})
+    .when('/signup',{ templateUrl: 'partials/signup.ejs', controller: 'SignupCtrl'});
     
   $routeProvider.otherwise({ redirectTo: "/" });
   $locationProvider.html5Mode({ enabled: true, requireBase: false});
@@ -89,6 +89,7 @@ app.run(['$http', '$rootScope', 'getUsername', function($http, $rootScope, getUs
   })
 }])
 
+//nav buttons
 app.controller('MainCtrl', ['$scope', '$rootScope','getUsername', function($scope, $rootScope, getUsername){
   getUsername.then(function(response) {
     response.data === '0' ? $scope.showing = false : $scope.showing = true;
@@ -221,4 +222,16 @@ app.controller('UserCtrl', ['$scope', '$route', '$http','socket', function($scop
     });
   }
     
+}]);
+
+//login and sigup errors
+app.controller('LoginCtrl', ['$scope', '$http', function($scope, $http){
+  $http.get('/loginErrors').then(function(response) {
+    $scope.errorMsg = response.data[0];
+  })
+}]);
+app.controller('SignupCtrl', ['$scope', '$http', function($scope, $http){
+  $http.get('signupErrors').then(function(response) {
+    $scope.errorMsg = response.data[0];
+  })
 }]);

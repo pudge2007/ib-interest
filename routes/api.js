@@ -40,12 +40,14 @@ module.exports = function (app, passport) {
   // auth
   app.post('/signup', passport.authenticate('local-signup', {
       successRedirect : '/profile',
-      failureRedirect : '/signup'
+      failureRedirect : '/signup',
+      failureFlash : true
   }));
 
   app.post('/login', passport.authenticate('local-login', {
       successRedirect : '/profile',
-      failureRedirect : '/login'
+      failureRedirect : '/login',
+      failureFlash : true
   }));
 
 	app.get('/logout', isLoggedIn, function (req, res) { 
@@ -53,9 +55,16 @@ module.exports = function (app, passport) {
 	  res.redirect('/login'); 
 	});
 	
-	// API для проверки на аутентификацию
   app.get('/loggedin', function(req, res) {
     res.send(req.isAuthenticated() ? req.user.local.username : '0');
+  });
+  
+  app.get('/signupErrors', function(req, res) {
+    res.send(req.flash('signupMessage'))
+  });
+  
+  app.get('/loginErrors', function(req, res) {
+    res.send(req.flash('loginMessage'))
   });
   
 };

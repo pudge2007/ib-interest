@@ -56,8 +56,8 @@ input.logout {
   background-color: transparent;
   border: none;
   color: #9d9d9d;
-  padding-top: 15px;
-  padding-bottom: 10px;
+  padding-top: 13px;
+  padding-bottom: 16px;
   padding-left: 15px;
 }
 
@@ -290,4 +290,11 @@ input.logout:focus {
   color: #96d0e6;
   background-color: #fff;
   border: 1px solid #96d0e6;
+}
+
+.page-login .errors {
+  margin-bottom: 10px;
+  margin-top: 30px;
+  color: #ea3167;
+  font-size: 18px;
 }

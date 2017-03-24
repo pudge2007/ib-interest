@@ -8,6 +8,7 @@ var passport = require('passport');
 var session = require('express-session');
 var routes = require('./routes');
 var api = require('./routes/api');
+var flash = require('connect-flash');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
